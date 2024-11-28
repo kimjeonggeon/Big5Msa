@@ -18,7 +18,7 @@ public class TestController {
     @PostMapping("/tests")
     public String test(@ModelAttribute("linePoints") LinePoints linePoints, Model model) {
         var evaluation = personalityTestService.evaluate(linePoints);
-
+        //화면단에서 받은 데이터를 서비스로 넘겨 만든 객체를 변환해서 반환
         var result = EvaluationResult.builder()
                 .extraversionValue(evaluation.getExtraversionValue())
                 .neuroticismValue(evaluation.getNeuroticismValue())
