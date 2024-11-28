@@ -9,14 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class TestController {
     private final PersonalityTestService personalityTestService;
-
-    @PostMapping("/tests")
-    public String test(@ModelAttribute("linePoints") LinePoints linePoints, Model model) {
+//restcontroller 로 수정 반환을 json타입으로
+    @PostMapping("/api/tests")
+    public EvaluationResult test(@RequestBody LinePoints linePoints) {
         var evaluation = personalityTestService.evaluate(linePoints);
         //화면단에서 받은 데이터를 서비스로 넘겨 만든 객체를 변환해서 반환
         var result = EvaluationResult.builder()
@@ -28,8 +30,7 @@ public class TestController {
                 .commentary(evaluation.getCommentary().getComments())
                 .build();
 
-        model.addAttribute("evaluation", result);
-        return "result";
+        return result;
     }
 
 
